@@ -10,7 +10,7 @@ Content-Type: application/json
 {
   "username": "范传奇",
   "password": "写个鸡毛啊",
-  "phone": "18870700000"
+  "phone": "1887070000"
 }
 ###
 PUT http://localhost:5000/user/1
