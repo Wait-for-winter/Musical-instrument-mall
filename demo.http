@@ -1,0 +1,24 @@
+GET http://localhost:5000/user/
+Accept: application/json
+###
+GET http://localhost:5000/user/1
+Accept: application/json
+###
+POST http://localhost:5000/register
+Content-Type: application/json
+
+{
+  "username": "范传奇",
+  "password": "写个鸡毛啊",
+  "phone": "18870700000"
+}
+###
+PUT http://localhost:5000/user/1
+Content-Type: application/json
+###
+DELETE http://localhost:5000/user/1
+Accept: application/json
+###
+GET http://localhost:5000/
+Accept: application/json
+
