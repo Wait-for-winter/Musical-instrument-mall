@@ -13,6 +13,15 @@ Content-Type: application/json
   "phone": "1887070000"
 }
 ###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "username": "范传奇",
+  "password": "写个鸡毛啊",
+  "phone": "887070000"
+}
+###
 PUT http://localhost:5000/user/1
 Content-Type: application/json
 ###
