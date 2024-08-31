@@ -53,8 +53,8 @@ class RegisterAPI(MethodView):
                     # 返回状态 1 表示注册成功
                     return jsonify({'status': 1}), 201
         except Exception as e:
-            print(f"Database error: {e}")
-            return jsonify({'error': 'Database error'}), 500
+            print(f"数据库出问题惹 : {e}")
+            return jsonify({'error': '数据库出问题惹'}), 500
         finally:
             connection.close()
 
