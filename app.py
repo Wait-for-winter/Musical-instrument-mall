@@ -166,6 +166,71 @@ class AddToCartAPI(MethodView):
         # 如果缺少必要的参数，返回错误
         return jsonify({'status': 0,'error': 'Invalid data'}), 400
 
+
+
+class ProductDetailsAPI(MethodView):
+    def get(self):
+        # 从请求中获取查询参数
+        pro_id = request.args.get('Pro_id')
+
+        # 连接到 MySQL 数据库
+        try:
+            connection = pymysql.connect(
+                host='localhost',  # 数据库地址
+                user='root',  # 数据库用户名
+                password='root',  # 数据库密码
+                db='database',  # 数据库名称
+                charset='utf8mb4',
+                cursorclass=pymysql.cursors.DictCursor
+            )
+            print("数据库连接成功")
+        except Exception as e:
+            print(f"草了没连上: {e}")
+            return jsonify({'error': '草了没连上'}), 500
+
+        try:
+            with connection.cursor() as cursor:
+                # 查询产品详细信息
+                sql_product = "SELECT * FROM product WHERE productID=%s"
+                cursor.execute(sql_product, (pro_id,))
+                product_info = cursor.fetchone()
+
+                if not product_info:
+                    print("找不到产品信息")
+                    return jsonify({'error': '找不到产品信息'}), 404
+
+                # 查询类型ID列表
+                sql_type_ids = "SELECT type_id FROM product_types WHERE productID=%s"
+                cursor.execute(sql_type_ids, (pro_id,))
+                type_ids = [row['type_id'] for row in cursor.fetchall()]
+
+                # 构造返回结果
+                result = [
+                    {
+                        'Pro_name': product_info['Pro_name'],
+                        'Pro_price': product_info['Pro_price'],
+                        'Pro_id': product_info['Pro_id'],
+                        'store_name': product_info['store_name'],
+                        'store_id': product_info['store_id']
+                    },
+                    type_ids
+                ]
+
+                print("查询成功")
+                return jsonify(result), 200
+        except Exception as e:
+            print(f"数据库出问题惹 : {e}")
+            return jsonify({'error': '数据库出问题惹'}), 500
+        finally:
+            connection.close()
+
+        # 如果缺少必要的参数，返回错误
+        return jsonify({'error': 'Invalid data'}), 400
+
+# 添加产品详情接口
+product_details_view = ProductDetailsAPI.as_view('product_details_api')
+app.add_url_rule('/product', view_func=product_details_view, methods=['GET'])
+
 # 添加购物车接口
 add_to_cart_view = AddToCartAPI.as_view('add_to_cart_api')
 app.add_url_rule('/cart/add', view_func=add_to_cart_view, methods=['POST'])
