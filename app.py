@@ -18,6 +18,7 @@ class RegisterAPI(MethodView):
         username = data.get('username')
         password = data.get('password')
         phone = data.get('phone')
+        id=data.get('id')
         print(f" 用户名: {username}")
 
         # 连接到 MySQL 数据库
@@ -38,8 +39,8 @@ class RegisterAPI(MethodView):
         try:
             with connection.cursor() as cursor:
                 # 检查用户名是否已存在
-                sql = "SELECT * FROM user WHERE phone=%s"
-                cursor.execute(sql, (phone,))
+                sql = "SELECT * FROM user WHERE id=%s"
+                cursor.execute(sql, (id))
                 result = cursor.fetchone()
 
                 if result:
@@ -47,8 +48,8 @@ class RegisterAPI(MethodView):
                     return jsonify({'status': 0}), 200
                 else:
                     # 如果用户不存在，将新用户插入数据库
-                    sql = "INSERT INTO user (username, password,phone) VALUES (%s, %s,%s)"
-                    cursor.execute(sql, (username, password,phone))
+                    sql = "INSERT INTO user (id,password) VALUES (%s,%s)"
+                    cursor.execute(sql, (id, password))
                     connection.commit()
                     # 返回状态 1 表示注册成功
                     return jsonify({'status': 1}), 201
