@@ -66,7 +66,7 @@ class LoginAPI(MethodView):
     def post(self):
         # 从请求中获取 JSON 数据
         data = request.get_json()
-        phone = data.get('phone')
+        id = data.get('id')
         password = data.get('password')
 
         # 连接到 MySQL 数据库
@@ -87,8 +87,8 @@ class LoginAPI(MethodView):
         try:
             with connection.cursor() as cursor:
                 # 检查用户名和密码是否匹配
-                sql = "SELECT * FROM user WHERE phone=%s AND password=%s"
-                cursor.execute(sql, (phone, password))
+                sql = "SELECT * FROM user WHERE id=%s AND password=%s"
+                cursor.execute(sql, (id, password))
                 result = cursor.fetchone()
 
                 if result:

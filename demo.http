@@ -16,9 +16,8 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-  "username": "范传奇",
-  "password": "写个鸡毛啊",
-  "phone": "887070000"
+  "id": "9",
+  "password": "JLU"
 }
 ###
 PUT http://localhost:5000/user/1
