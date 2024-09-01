@@ -16,16 +16,16 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-  "id": "9",
+  "id": "1",
   "password": "JLU"
 }
 ###
-PUT http://localhost:5000/user/1
+POST http://localhost:5000/cart/add
 Content-Type: application/json
-###
-DELETE http://localhost:5000/user/1
-Accept: application/json
-###
-GET http://localhost:5000/
-Accept: application/json
+
+{
+  "Pro_id": "1",
+  "detail_id": "1",
+  "num": "10"
+}
 
